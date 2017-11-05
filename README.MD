@@ -4,9 +4,9 @@ Little library that can extract data from CNC usage reports
 ---
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 #### Installing
-At fist you might want to create a new virtual env, i'll leave it up to you.
+At first you might want to create a new virtual env, i'll leave it up to you.
 
-To get started wit hthe package you need to clone project and install it using `pip`:
+To get started with the package you need to clone project and install it using `pip`:
 
 ```
 $ git clone https://github.com/JaveBychkov/upgraded-chainsaw.git cncparser
@@ -23,7 +23,6 @@ $ python -m unittest discover
 ```
 ### Basic usage
 ---
-*Note: this git repo includes folder with reports examples*
 
 Parsing single report:
 ```python
