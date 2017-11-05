@@ -11,14 +11,14 @@ class Report:
 
     Attributes
     ----------
-    path
-        something
-    data
-        something
-    name
-        something
-    date
-        something
+    path : str
+        System path to a report file.
+    data : list
+        Raw, unprocessed, 3 columns of useful data parsed from report.
+    name : str
+        Extracted from path file name.
+    date : datetime
+        datetime obj, representing report's date.
     """
 
     def __init__(self, path):
@@ -30,22 +30,23 @@ class Report:
 
     @property
     def date_as_string(self):
+        """str : String representation of datetime object"""
         return datetime.strftime(self.date, '%Y-%m-%d')
 
     @property
     def idle_time(self):
-        """Returns the time laser was in idle"""
+        """timedelta : Returns the time laser was in idle"""
         return self.summary.get('idle')
 
     @property
     def busy_time(self):
-        """Returns the time laser was in work"""
+        """timedelta : Returns the time laser was in work"""
         values = [self.summary[key] for key in self.summary if key != 'idle']
         return sum(values, timedelta())
 
     @property
     def jobs(self):
-        """Returns parsed programs"""
+        """dict : Returns parsed programs"""
         return {k: v for k, v in self.summary.items() if k != 'idle'}
 
     def items(self):
@@ -138,6 +139,8 @@ def read_report(path):
 
 def parse(path):
     """Extracts data wrapped in <tr> tags
+
+    Last 2 columns of report are not interesting and therefore omitted.
 
     Parameters
     ----------

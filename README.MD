@@ -19,7 +19,7 @@ This commands will install `lxml>=3.7` package and `cncparser` package.
 ---
 To run tests you simply do:
 ```
-$ python -m unittest test discover
+$ python -m unittest discover
 ```
 ### Basic usage
 ---
