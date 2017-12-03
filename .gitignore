@@ -3,5 +3,6 @@ __pycache__/
 *$py.class
 *.csv
 # Sublime stuff
-*sublime-project
-*sublime-workspace
+*.sublime-project
+*.sublime-workspace
+*.vscode

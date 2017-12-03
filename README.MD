@@ -6,7 +6,7 @@ These instructions will get you a copy of the project up and running on your loc
 #### Installing
 At fist you might want to create a new virtual env, i'll leave it up to you.
 
-To get started wit hthe package you need to clone project and install it using `pip`:
+To get started with the package you need to clone project and install it using `pip`:
 
 ```
 $ git clone https://github.com/JaveBychkov/upgraded-chainsaw.git cncparser
@@ -23,7 +23,6 @@ $ python -m unittest discover
 ```
 ### Basic usage
 ---
-*Note: this git repo includes folder with reports examples*
 
 Parsing single report:
 ```python
@@ -39,10 +38,10 @@ report.date  # Python datetime reprsentation of date.
 report.date_as_string  # String representation of date.
 report.data  # Raw, unproccessed report data.
 report.summary  # Proccesed, summarized data from the report.
-report.idle_time  # Summary of the time laser was in-active.
-report.busy_time  # Dictionary where keys is job's names and values is a time jobs were in work.
+report.idle_time  # Summary of the time laser was inactive.
+report.busy_time  # Dictionary where keys are job's names and values are time jobs were in work.
 ```
-Basic use case is to write collected data to **CSV** file, example below will write  idle times for all reports in current folder to a `idle_time_data.csv`
+Basic use case is to write collected data to **CSV** file, example below will write  idle times for all reports in current folder to an `idle_time_data.csv` file.
 ```python
 import os
 import csv

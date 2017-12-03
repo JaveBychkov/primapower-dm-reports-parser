@@ -16,9 +16,9 @@ class Report:
     data : list
         Raw, unprocessed, 3 columns of useful data parsed from report.
     name : str
-        Extracted from path file name.
+        File name extracted from file path.
     date : datetime
-        datetime obj, representing report's date.
+        datetime obj, representing date report was generated.
     """
 
     def __init__(self, path):
@@ -138,19 +138,19 @@ def read_report(path):
 
 
 def parse(path):
-    """Extracts data wrapped in <tr> tags
+    """Extracts data wrapped in <tr> tags.
 
     Last 2 columns of report are not interesting and therefore omitted.
 
     Parameters
     ----------
     path : str
-        Path to the report file
+        Path to the report file.
 
     Yields
     ------
-        tuple
-            Tuple of 3 useful report's rows : time, name, status
+    tuple
+        Tuple of 3 useful report's rows : time, name, status.
     """
     tree = lxml.html.parse(path).getroot()
     start = 1
@@ -165,17 +165,17 @@ def parse(path):
 
 
 def convert_time(time):
-    """Returns timedelta object converted from string
+    """Returns timedelta object converted from string.
 
     Parameters
     ----------
     time : str
-        Time string
+        Time string.
 
     Returns
     -------
     timedelta
-        timedelta object converted from string
+        timedelta object converted from string.
 
     Example
     -------
