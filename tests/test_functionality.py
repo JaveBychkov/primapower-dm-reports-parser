@@ -22,7 +22,8 @@ class SimpleFunctionalTestCase(unittest.TestCase):
             else:
                 report = FakeReport()
             self.reports[name] = report
-            f.write(report.as_string)
+            report.generate_report()
+            f.write(report.html)
             f.close()
 
     def tearDown(self):
@@ -47,17 +48,16 @@ class SimpleFunctionalTestCase(unittest.TestCase):
         self.assertCountEqual(names, self.reports.keys())
 
         for report in parsed:
-            work_time = self.reports[report.name].work_time
-            busy = [work_time[key] for key in work_time if key != 'idle']
+            fake_report = self.reports[report.name]
 
-            self.assertEqual(report.idle_time, work_time['idle'])
+            self.assertEqual(report.idle_time, fake_report.timings['idle'])
 
-            jobs = {k: v for k, v in work_time.items() if k != 'idle'}
-            self.assertEqual(report.jobs, jobs)
+            self.assertEqual(report.jobs, fake_report.jobs)
 
-            self.assertEqual(report.busy_time, sum(busy, timedelta()))
+            self.assertEqual(report.busy_time, sum(fake_report.jobs.values(),
+                                                   timedelta()))
 
-            self.assertEqual(report.summary, work_time)
+            self.assertEqual(report.summary, fake_report.timings)
 
 
 if __name__ == '__main__':
