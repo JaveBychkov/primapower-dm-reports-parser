@@ -153,13 +153,9 @@ def parse(path):
         Tuple of 3 useful report's rows : time, name, status.
     """
     tree = lxml.html.parse(path).getroot()
-    start = 1
-    for elem in tree.iter('tr'):
-        # Skip headers as they can't be proccessed with conver_time function
-        # and they're useless anyway.
-        if start:
-            start = 0
-            continue
+    iterator = tree.iter('tr')
+    next(iterator)  # skip headers
+    for elem in iterator:
         time, name, status, *_ = elem
         yield convert_time(time.text), name.text, status.text
 
