@@ -1,6 +1,6 @@
 import os
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from collections import defaultdict
 
 import lxml.html
@@ -59,8 +59,8 @@ class Report:
 
     def date_from_name(self):
         """Set self.date extracted from report's name"""
-        date = [int(x) for x in os.path.splitext(self.name)[0].split('_')]
-        self.date = datetime(*date)
+        date_ints = [int(x) for x in os.path.splitext(self.name)[0].split('_')]
+        self.date = date(*date_ints)
 
     def sum_data(self):
         """Summarize parsed data
@@ -134,7 +134,76 @@ class Report:
 
 
 def read_report(path):
-    return Report(path)
+    """Read a single report
+
+    Parameters
+    ----------
+    path : str
+        Path to the directory.
+
+    Returns
+    -------
+    Report
+        Report instance.
+
+    Raises
+    ------
+    FileNotFoundError
+        Raised if given path is not a file or it doesn't exists.
+    """
+    if os.path.exists(path) and os.path.isfile(path):
+        return Report(path)
+    raise FileNotFoundError(
+        'Please, make sure that {} file exists'.format(path)
+    )
+
+
+def read_folder(path):
+    """Function to check whether given path is existing directory.
+    If directory exists - return real _read_folder() generator that actually
+    'read' folder.
+
+    Using this wrapper because if we write all logic in the single function
+    exception will not be raised until we start iterating over a generator
+    object.
+
+    Parameters
+    ----------
+    path : str
+        Path to the directory.
+
+    Returns
+    -------
+    generator object
+        returns _read_folder(path)
+
+    Raises
+    ------
+    NotADirectoryError
+        Raised if given path is not existing directory.
+    """
+    if os.path.isdir(path):
+        return _read_folder(path)
+    else:
+        raise NotADirectoryError('{} is not a folder'.format(path))
+
+
+def _read_folder(path):
+    """Generator that returns Report objects for html files in given folder.
+
+    Parameters
+    ----------
+    path : str
+        Path to the directory.
+
+    Yields
+    ------
+    Report
+        Report instance.
+    """
+    files = (file for file in os.listdir(path) if file.endswith('.html'))
+    for file in files:
+        yield Report(os.path.join(path, file))
 
 
 def parse(path):

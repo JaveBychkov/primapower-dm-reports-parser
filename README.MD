@@ -41,29 +41,21 @@ report.summary  # Proccesed, summarized data from the report.
 report.idle_time  # Summary of the time laser was inactive.
 report.busy_time  # Dictionary where keys are job's names and values are time jobs were in work.
 ```
-Basic use case is to write collected data to **CSV** file, example below will write  idle times for all reports in current folder to an `idle_time_data.csv` file.
+Basic use case is to write collected data to **CSV** file, example below will write  idle times for all reports in `data/programgs` folder to the `idle_time_data.csv` file.
 ```python
-import os
 import csv
 
 import cncparser
+from cncparser.utils import sort_descending
 
-files = [f for f in os.listdir('.') if f.endswith('.html')]
+reports = cncparser.read_folder('data/programs')
 
-reports = [cncparser.read_report(f) for f in files]
+data = {r.date: r.idle_time for r in reports if r.date.year >= 2017}
 
-sorted_reports = sorted([(r.date, r.idle_time) for r in reports],
-                        key=lambda x: x[1])
+sorted_data = sort_descending(data)  # sort by idle_time, highest goes first.
 
 with open('idle_time_data.csv', 'w', newline='') as output:
     writer = csv.writer(output)
     writer.writerow(['Date', 'Time'])
-    for data in sorted_reports:
-        writer.writerow(data)
+    writer.writerows(sorted_data)
 ```
-
-
-
-
-
-

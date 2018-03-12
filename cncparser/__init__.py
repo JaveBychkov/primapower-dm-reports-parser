@@ -1,1 +1,1 @@
-from .report import read_report
+from .report import read_report, read_folder  # NOQA
